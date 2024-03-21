@@ -1,0 +1,30 @@
+{
+  "name": "student-automation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Student-Automation-Group-8/student-automation.git"
+  },
+  "keywords": [
+    "Student",
+    "Automation",
+    "Group",
+    "8"
+  ],
+  "author": "Bahadır Aksakal, Mahire Zuhal Özdemir, Derya Öztürk, Ozan Çakır, Evin Aydın",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Student-Automation-Group-8/student-automation/issues"
+  },
+  "homepage": "https://github.com/Student-Automation-Group-8/student-automation#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.1",
+    "nodemon": "^3.1.0"
+  }
+}
