@@ -61,11 +61,11 @@ Route üzerinde tanımlanan isteklerin hangi url üzerinden geleceğini belirtir
 */
 
 
-db.sequelize.authenticate().then(() => {
-  console.log('Veritabanına başarıyla bağlanıldı.');
-}).catch(err => {
-  console.error('Veritabanına bağlanırken bir hata oluştu:', err);
-});
+// db.sequelize.authenticate().then(() => {
+//   console.log('Veritabanına başarıyla bağlanıldı.');
+// }).catch(err => {
+//   console.error('Veritabanına bağlanırken bir hata oluştu:', err);
+// });
 /*
  Veritabanı bağlantısını doğruluyoruz. Eğer bağlantı başarılı olursa 'Veritabanına başarıyla bağlanıldı.' mesajını, başarısız olursa 'Veritabanına bağlanırken bir hata oluştu:' mesajını yazdırıyoruz.
 */

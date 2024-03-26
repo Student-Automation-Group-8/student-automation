@@ -47,7 +47,8 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 
-db.student = require('./student.js')(sequelize, DataTypes);
+db.student = require('./Student.js')(sequelize, DataTypes);
+db.department = require('./Department.js')(sequelize, DataTypes);
 /* Yeni modelleri veri tabanına ekleme işlemleri:
   Yeni eklenecek tabloları buraya ekleyeceğiz.
   veritabanına stdudent şemasını(nesnesini) ekledik.
@@ -72,7 +73,7 @@ Not3: tablolar arasındaki ilişkiler model dosyasında da tanımlanmabilir. Bu 
 */
 
 
-db.sequelize.sync({ force: true}).then(() => {
+db.sequelize.sync({ force: false}).then(() => {
   console.log('Veritabanı başarıyla oluşturuldu.');
 }).catch(err => {
   console.error('Veritabanını oluştururken bir hata oluştu:', err);
