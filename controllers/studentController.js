@@ -1,25 +1,12 @@
-const db = require('../models/database.js');
+// Convert to ES module syntax
+import db from '../models/database.js';
 
 // create main Model
 const Student = db.student;
 
-/* studentController.js yapılacaklar:
-Create,update,delete,get ve getAll fonksiyonları yazılacak.
-*/
-
-
-exports.createStudent = async (req, res) => {
-   /*
-   Post method access
-   Student create
-   */
+export const createStudent = async (req, res) => {
    try {
-    console.log(req.body);
-    /*
-    Kullanıcının zaten var olup olmadığını kontrol edin
-    `Student.findOne()` gibi yapıları sequelizer ile birlikte çok daha efektif bir şekilde, veritabanı bağımsız olarak kullanabiliyoruz.
-    */
-    const studentExist = await Student.findOne({ email: req.body.userMail })
+    const studentExist = await Student.findOne({where:{ email: req.body.email }})
     if (studentExist) {
         res.send({
             "mesaj": `Başarısız! Kullanıcı, ${studentExist.email} adresi ile zaten var!`
@@ -42,30 +29,55 @@ exports.createStudent = async (req, res) => {
     });
 }
 }
-exports.getStudent = async (req, res) => {
-    /* 
-    Get method access
-    Student get
-    */
+
+export const getStudent = async (req, res) => {
+    try{
+        const student = await Student.findOne({where:{ email: req.params.email }});
+        if (!student) {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+        res.json(student);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 };
 
-exports.getAllStudents = async (req, res) => {
-    /*
-    Get method access    
-    Student get all
-    */
+export const getAllStudents = async (_, res) => { // Removed unused req parameter
+    try {
+        const students = await Student.findAll();
+        res.json(students);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 };
 
-exports.deleteStudent = async (req, res) => {
-    /*
-    Selete method access
-    Student delete
-    */
+export const deleteStudent = async (req, res) => {
+    try {
+        const student = await Student.destroy({where:{ email: req.params.email }});
+        if (!student) {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+        res.json({ message: 'Student deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 };
 
-exports.updateStudent = async (req, res) => {
-    /*
-    Put method access
-    Student update
-    */
+export const updateStudent = async (req, res) => {
+    try {
+        const boolInt = await Student.update(req.body,
+            {
+                where: { email: req.params.email }
+            }
+        )
+        
+        if (boolInt == 1) {
+            return res.json({ message: 'Student is updated successfully' });
+        }
+
+        return res.status(404).json({ message: 'Student not found or req.body is empty ' });
+
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 };

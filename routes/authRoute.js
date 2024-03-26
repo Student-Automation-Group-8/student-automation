@@ -1,8 +1,6 @@
-const express = require('express');
-const authController = require('../controllers/authController');
-//const authMiddleware = require('../middlewares/authMiddleware');
+import express from 'express';
+// import authController from '../controllers/authController'; // Removed as it's not used
 
-const router = express.Router();
+const AuthRoute = express.Router();
 
-
-module.exports = router;
+export default AuthRoute;
