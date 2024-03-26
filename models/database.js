@@ -1,6 +1,7 @@
 import dbConfig from '../config/config.js';
 import { Sequelize, DataTypes } from 'sequelize';
 import studentModel from './student.js';
+import departmentModel from './department.js';
 /*
   Sequelize için yapılandırma dosyasını çağırdık.
 */
@@ -50,6 +51,7 @@ db.sequelize = sequelize;
 
 
 db.student = studentModel(sequelize, DataTypes);
+db.department = departmentModel(sequelize, DataTypes);
 
 /* Yeni modelleri veri tabanına ekleme işlemleri:
   Yeni eklenecek tabloları buraya ekleyeceğiz.

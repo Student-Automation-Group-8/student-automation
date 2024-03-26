@@ -1,39 +1,28 @@
-//const db = require('../models/database.js');
+import db from '../models/database.js';
 
-//create main Model
-//const Student = db.student;
-//const Department = db.department;
 
 /* departmentController.js yapılacaklar:
 Create,update,delete,get ve getAll fonksiyonları yazılacak.
 */
-
-
-/* createDepartment açıklaması:
-    post method access
-*/
-const db = require('../models/database.js');
 
 //create main Model
 const Department = db.department;
 
 
-/* departmentController.js yapılacaklar:
-Create,update,delete,get ve getAll fonksiyonları yazılacak.
+/* createDepartment açıklaması:
+    post method access
 */
-
-
-exports.createDepartment = async (req, res) => {
+export const createDepartment = async (req, res) => {
     try {
         console.log(req.body);
-        /*
+        
         const departmentExist = await Department.findOne({ where: { name: req.body.name } });
         if (departmentExist) {
             return res.status(400).json({
-                message: Başarısız! Department, ${departmentExist.name}  zaten var!
+                message: "Başarısız! Department, ${departmentExist.name}  zaten var!"
             });
         }
-        */
+        
         const department = await Department.create(req.body);
 
         return res.status(201).json({
@@ -59,7 +48,7 @@ exports.createDepartment = async (req, res) => {
 /* deleteDepartment açıklaması:
 Delete method access
 */
-exports.deleteDepartment = async (req, res) => {
+export const deleteDepartment = async (req, res) => {
     
         try {
             // Departmanı veritabanından sil
@@ -95,7 +84,7 @@ exports.deleteDepartment = async (req, res) => {
 /* getDepartment açıklaması:
 Get method access
 */
-exports.getDepartment = async (req, res) => {
+export const getDepartment = async (req, res) => {
     
         try {
             console.log(req.body);
@@ -127,7 +116,7 @@ exports.getDepartment = async (req, res) => {
 /* getAllDepartments açıklaması:
 Get method access
 */
-exports.getAllDepartments = async (req, res) => {
+export const getAllDepartments = async (req, res) => {
     
         try {
             // Tüm departmanları veritabanından al
@@ -163,34 +152,34 @@ exports.getAllDepartments = async (req, res) => {
 /* updateDepartment açıklaması:
  Put method access
 */
-    exports.updateDepartment = async (req, res) => {
-        try {
-            const { name, dept_std_id } = req.body; // Güncellenecek departmanın yeni adı ve kodu
-            
-            // Departman kodu veritabanında var mı diye kontrol et
-            const existingDepartment = await Department.findOne({ where: { dept_std_id } });
-    
-            // Eğer departman bulunamazsa
-            if (!existingDepartment) {
-                return res.status(404).json({
-                    message: "Departman bulunamadı."
-                });
-            }
-    
-            // Departman varsa, güncelleme yap
-            await existingDepartment.update({ name }); // Sadece adı güncellemek için
-            // Alternatif olarak, hem adı hem de kodu güncellemek için:
-            // await existingDepartment.update({ name, dept_std_id });
-    
-            return res.status(200).json({
-                message: "Başarılı! Departman başarıyla güncellendi."
-            });
-        } catch (error) {
-            console.error(error);
-            // Sunucu hatası
-            return res.status(500).json({
-                title: "Hata!",
-                message: "Sunucu hatası."
+export const updateDepartment = async (req, res) => {
+    try {
+        const { name, dept_std_id } = req.body; // Güncellenecek departmanın yeni adı ve kodu
+        
+        // Departman kodu veritabanında var mı diye kontrol et
+        const existingDepartment = await Department.findOne({ where: { dept_std_id } });
+
+        // Eğer departman bulunamazsa
+        if (!existingDepartment) {
+            return res.status(404).json({
+                message: "Departman bulunamadı."
             });
         }
-    };
+
+        // Departman varsa, güncelleme yap
+        await existingDepartment.update({ name }); // Sadece adı güncellemek için
+        // Alternatif olarak, hem adı hem de kodu güncellemek için:
+        // await existingDepartment.update({ name, dept_std_id });
+
+        return res.status(200).json({
+            message: "Başarılı! Departman başarıyla güncellendi."
+        });
+    } catch (error) {
+        console.error(error);
+        // Sunucu hatası
+        return res.status(500).json({
+            title: "Hata!",
+            message: "Sunucu hatası."
+        });
+    }
+};
