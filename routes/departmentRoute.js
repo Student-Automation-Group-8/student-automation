@@ -1,6 +1,6 @@
-const express = require('express');
-const departmentController = require('../controllers/departmentController');
-//const authMiddleware = require('../middlewares/authMiddleware');
+import express from 'express';
+// import departmentController from '../controllers/departmentController'; // Removed as it's not used
+
 
 const router = express.Router();
 router.route('/createDept').post(departmentController.createDepartment); 
@@ -9,4 +9,5 @@ router.route('/getAllDept').get(departmentController.getAllDepartments);
 router.route('/deleteDept').delete(departmentController.deleteDepartment);
 router.route('/updateDept').put(departmentController.updateDepartment);
 
-module.exports = router;
+
+export default DepartmentRoute;

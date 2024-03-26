@@ -1,13 +1,24 @@
-const express = require('express');
-const studentController = require('../controllers/studentController');
-//const authMiddleware = require('../middlewares/authMiddleware');
-
-const router = express.Router();
-router.route('/create').post(studentController.createStudent); // Create a new Student
-router.route('/get').get(studentController.getStudent); 
-router.route('/getAll').get(studentController.getAllStudents); 
-router.route('/delete').delete(studentController.deleteStudent); 
-router.route('/update').put(studentController.updateStudent); 
+import express from 'express';
+import * as studentController from '../controllers/studentController.js';
+// import authMiddleware from '../middlewares/authMiddleware';
 
 
-module.exports = router;
+const StudentRoute = express.Router();
+
+
+// Create a new Student
+StudentRoute.route('/create').post(studentController.createStudent);
+
+// Get all Students
+StudentRoute.route('/getAll').get(studentController.getAllStudents);
+
+// Get a single Student by id
+StudentRoute.route('/get/:email').get(studentController.getStudent);
+
+// Update a Student by id
+StudentRoute.route('/update/:email').put(studentController.updateStudent);
+
+// Delete a Student by id
+StudentRoute.route('/delete/:email').delete(studentController.deleteStudent);
+
+export default StudentRoute;

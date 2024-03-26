@@ -1,17 +1,12 @@
-const db = require('../models/database.js');
+// Convert to ES module syntax
+import db from '../models/database.js';
 
 // create main Model
 const Student = db.student;
 
-/* studentController.js yapılacaklar:
-Create,update,delete,get ve getAll fonksiyonları yazılacak.
-*/
 
-exports.createStudent = async (req, res) => {
-    /*
-    Post method access
-    Student create
-    */
+export const createStudent = async (req, res) => {
+
     try {
         console.log(req.body);
         /*
@@ -40,42 +35,29 @@ exports.createStudent = async (req, res) => {
             message: "Sunucu hatası"
         });
     }
-};
 
-exports.getStudent = async (req, res) => {
+}
+
+export const getStudent = async (req, res) => {
+
     /* 
     Get method access
     Student get
     */
-    try {
-        console.log(req.body);
-        const student = await Student.findOne({ where: { email: req.body.email } }); // Burada req.body.email kullanıldı
-        console.log(student);
-        if (student === null) {
-            // Öğrenci bulundu
-            res.send({
-                "mesaj": "Öğrenci bulunamadı",
-            });
-            return;
-        } else {
-            res.send({
-                "mesaj": "Öğrenci bulundu"
-            });
-        }
-    
-        
-    } catch (error) {
-        console.log(error);
-        res.status(500).send({
-            "baslik": "Hata!",
-            "mesaj": "Sunucu hatası"
-        });
-    }
 
+    try{
+        const student = await Student.findOne({where:{ email: req.params.email }});
+        if (!student) {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+        res.status(200).json(student);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 };
 
+export const getAllStudents = async (_, res) => { // Removed unused req parameter
 
-exports.getAllStudents = async (req, res) => {
     try {
         // Tüm öğrencileri veritabanından al
         const students = await Student.findAll();
@@ -106,17 +88,20 @@ exports.getAllStudents = async (req, res) => {
 };
 
 
-exports.deleteStudent = async (req, res) => {
+export const deleteStudent = async (req, res) => {
     try {
         // Öğrenciyi veritabanından sil
-        const deletedStudent = await Student.destroy({
+        const successCode = await Student.destroy({
             where: {
-                email: req.body.email // E-posta adresini sorgu parametrelerinden al
+                email: req.params.email // E-posta adresini sorgu parametrelerinden al
+
             }
         });
 
         // Silinen öğrenci varsa
-        if (deletedStudent) {
+
+        if (successCode) {
+
             return res.status(200).json({
                 message: "Başarılı! Öğrenci başarıyla silindi."
             });
@@ -137,34 +122,29 @@ exports.deleteStudent = async (req, res) => {
 };
 
 
-exports.updateStudent = async (req, res) => {
+export const updateStudent = async (req, res) => {
     try {
-        const { name, email } = req.body; // Güncellenecek öğrencinin yeni adı ve e-posta adresi
+        const existingStudentCode = await Student.update(req.body,
+            {
+                where: { email: req.params.email }
+            }
+        )
         
-        // E-posta adresi veritabanında var mı diye kontrol et
-        const existingStudent = await Student.findOne({ where: { email } });
+         // Eğer öğrenci yoksa
+         if (existingStudentCode == 0) {
 
-        // Eğer öğrenci yoksa
-        if (!existingStudent) {
             return res.status(404).json({
                 message: "Öğrenci bulunamadı."
             });
         }
 
-        // Öğrenci varsa, güncelleme yap
-        await existingStudent.update({ name }); // Sadece adı güncellemek için
-        // Alternatif olarak, hem adı hem de e-posta adresini güncellemek için:
-        // await existingStudent.update({ name, email });
 
         return res.status(200).json({
             message: "Başarılı! Öğrenci başarıyla güncellendi."
         });
-    } catch (error) {
-        console.error(error);
-        // Sunucu hatası
-        return res.status(500).json({
-            title: "Hata!",
-            message: "Sunucu hatası."
-        });
+
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 };
+
