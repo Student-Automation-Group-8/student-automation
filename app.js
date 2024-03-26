@@ -1,6 +1,11 @@
 
-const express = require('express');
-const cors = require('cors');
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import AuthRoute from './routes/authRoute.js';
+import StudentRoute from './routes/studentRoute.js';
+import DepartmentRoute from './routes/departmentRoute.js';
+import http from 'http';
 /*
  Express ve cors modüllerini projemize dahil ediyoruz.
 
@@ -8,26 +13,18 @@ const cors = require('cors');
  Express: Node.js üzerinde çalışan web uygulamaları için hızlı ve minimalist bir web çerçevesidir.
  Cors: Cross-Origin Resource Sharing (CORS), bir web sayfası üzerinde çalışan bir betik dilinin, farklı bir domain, alt domain veya farklı bir protokol ile kaynak paylaşımına izin verme mekanizmasıdır.
 */
-
-require('dotenv').config();
-/*
-dotenv modülünü projemize dahil ediyoruz.
-*/
-
-const db = require('./models/database.js');
 /*
  models/database.js dosyasını projemize dahil ediyoruz. Yani configüre edip oluşturduğumuz sequelize nesnesini projemize dahil ediyoruz. 
  db üzerinden ilgili işlemleri yapacağız.
  */
-
-const AuthRoute = require('./routes/authRoute');
-const StudentRoute = require('./routes/studentRoute');
-const DepartmentRoute = require('./routes/departmentRoute');
 /*
 routes klasöründeki dosyaları projemize dahil ediyoruz. 
 Hangi istek için hangi url, hangi metotlar kullanılıcak, bu istek gerçekleşirken bir middleware den geçicek mi bunları route içinde belirtiyoruz.
 */
-
+dotenv.config();
+/*
+dotenv modülünü projemize dahil ediyoruz.
+*/
 const app = express();
 app.use(cors({
     origin: '*', 
@@ -41,7 +38,6 @@ app.use(cors({
   "*" ın anlamı tüm header bilgilerine izin verir.
 */
 
-
 app.use(express.json());
 /*
 `app.use(express.json())` kodu, Express uygulamasında bir middleware'ı kullanmaya başlar. Bu middleware, gelen isteklerdeki JSON verilerini ayrıştırmak ve JavaScript nesnelerine dönüştürmek için kullanılır.
@@ -50,8 +46,7 @@ JSON verileri genellikle POST veya PUT isteklerinde gönderilen verilerdir. Örn
 Özetle, `app.use(express.json())` kodu, Express uygulamanızda gelen isteklerdeki JSON verilerini işlemek için kullanılan bir middleware'i başlatır ve kullanıma sokar. Bu sayede, gelen isteklerdeki JSON verilerini kolayca işleyebilir ve kullanabilirsiniz.
 */
 
-
-app.get('/', (req, res) => { res.json({ message: "welcome group 8" }) })
+app.get('/', (_, res) => { res.json({ message: "welcome group 8" }) })
 app.use('/auth', AuthRoute);
 app.use('/student', StudentRoute);
 app.use('/department', DepartmentRoute);
@@ -61,21 +56,20 @@ Route üzerinde tanımlanan isteklerin hangi url üzerinden geleceğini belirtir
 */
 
 
-db.sequelize.authenticate().then(() => {
-  console.log('Veritabanına başarıyla bağlanıldı.');
-}).catch(err => {
-  console.error('Veritabanına bağlanırken bir hata oluştu:', err);
-});
+// db.sequelize.authenticate().then(() => {
+//   console.log('Veritabanına başarıyla bağlanıldı.');
+// }).catch(err => {
+//   console.error('Veritabanına bağlanırken bir hata oluştu:', err);
+// });
 /*
  Veritabanı bağlantısını doğruluyoruz. Eğer bağlantı başarılı olursa 'Veritabanına başarıyla bağlanıldı.' mesajını, başarısız olursa 'Veritabanına bağlanırken bir hata oluştu:' mesajını yazdırıyoruz.
 */
 
-const server = require('http').createServer(app);
+const server = http.createServer(app);
 /*
  Sunucuyu başlatmak için 'http' modülünden 'createServer' fonksiyonunu kullanıyoruz. Bu fonksiyon, bir HTTP sunucusu oluşturur.
  Not: eğer Postman üzerinde https kullanırsanız hata alırsınız. Çünkü bu sunucu http üzerinden çalışıyor.
 */
-
 
 const port = process.env.PORT;
 server.listen(port, () => {

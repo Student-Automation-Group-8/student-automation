@@ -1,7 +1,7 @@
 'use strict'; // Bu dosyada ES6 standartlarına göre kod yazılacağını belirtir.
 
 // Student modeli tanımlanıyor. Bu model, veritabanında student tablosunu temsil edecek. Aynı zqamanda bir class gibi kullanılabilecek.
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
 
   const Student = sequelize.define("student", {
     // Model alanları ve özellikleri tanımlanıyor.

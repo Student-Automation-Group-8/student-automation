@@ -1,12 +1,13 @@
-const dbConfig = require('../config/config.js');
+import dbConfig from '../config/config.js';
+import { Sequelize, DataTypes } from 'sequelize';
+import studentModel from './student.js';
 /*
   Sequelize için yapılandırma dosyasını çağırdık.
 */
-
-const {Sequelize, DataTypes} = require('sequelize');
 /*
   Sequelize modülünü çağırdık.
 */
+
 
 const sequelize = new Sequelize(
     dbConfig.DB,
@@ -47,7 +48,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 
-db.student = require('./student.js')(sequelize, DataTypes);
+db.student = studentModel(sequelize, DataTypes);
 /* Yeni modelleri veri tabanına ekleme işlemleri:
   Yeni eklenecek tabloları buraya ekleyeceğiz.
   veritabanına stdudent şemasını(nesnesini) ekledik.
@@ -72,7 +73,7 @@ Not3: tablolar arasındaki ilişkiler model dosyasında da tanımlanmabilir. Bu 
 */
 
 
-db.sequelize.sync({ force: true}).then(() => {
+db.sequelize.sync({ force: false}).then(() => {
   console.log('Veritabanı başarıyla oluşturuldu.');
 }).catch(err => {
   console.error('Veritabanını oluştururken bir hata oluştu:', err);
@@ -84,7 +85,7 @@ db.sequelize.sync({ force: true}).then(() => {
   'force: false' olursa tablo yoksa oluşturur varsa oluşturmaz. Fakat tablo yapısında değişiklik olunca tabloyu güncellemiyor.(bunu araştırıcam şimdilik true kullanalım.)
 */
 
-module.exports = db;
+export default db;
 /*
  Tüm configrasyonnlarımızı tutan db nesnesini dışarıya return ettik.
 */
