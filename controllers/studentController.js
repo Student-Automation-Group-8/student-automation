@@ -4,7 +4,9 @@ import db from '../models/database.js';
 // create main Model
 const Student = db.student;
 
+
 export const createStudent = async (req, res) => {
+
     try {
         console.log(req.body);
         /*
@@ -33,13 +35,16 @@ export const createStudent = async (req, res) => {
             message: "Sunucu hatası"
         });
     }
+
 }
 
 export const getStudent = async (req, res) => {
+
     /* 
     Get method access
     Student get
     */
+
     try{
         const student = await Student.findOne({where:{ email: req.params.email }});
         if (!student) {
@@ -52,6 +57,7 @@ export const getStudent = async (req, res) => {
 };
 
 export const getAllStudents = async (_, res) => { // Removed unused req parameter
+
     try {
         // Tüm öğrencileri veritabanından al
         const students = await Student.findAll();
@@ -81,17 +87,21 @@ export const getAllStudents = async (_, res) => { // Removed unused req paramete
     }
 };
 
+
 export const deleteStudent = async (req, res) => {
     try {
         // Öğrenciyi veritabanından sil
         const successCode = await Student.destroy({
             where: {
                 email: req.params.email // E-posta adresini sorgu parametrelerinden al
+
             }
         });
 
         // Silinen öğrenci varsa
+
         if (successCode) {
+
             return res.status(200).json({
                 message: "Başarılı! Öğrenci başarıyla silindi."
             });
@@ -111,6 +121,7 @@ export const deleteStudent = async (req, res) => {
     }
 };
 
+
 export const updateStudent = async (req, res) => {
     try {
         const existingStudentCode = await Student.update(req.body,
@@ -121,10 +132,12 @@ export const updateStudent = async (req, res) => {
         
          // Eğer öğrenci yoksa
          if (existingStudentCode == 0) {
+
             return res.status(404).json({
                 message: "Öğrenci bulunamadı."
             });
         }
+
 
         return res.status(200).json({
             message: "Başarılı! Öğrenci başarıyla güncellendi."
@@ -134,3 +147,4 @@ export const updateStudent = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+

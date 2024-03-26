@@ -48,7 +48,9 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 
+
 db.student = studentModel(sequelize, DataTypes);
+
 /* Yeni modelleri veri tabanına ekleme işlemleri:
   Yeni eklenecek tabloları buraya ekleyeceğiz.
   veritabanına stdudent şemasını(nesnesini) ekledik.
