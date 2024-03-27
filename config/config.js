@@ -4,7 +4,7 @@ dotenv.config();
 
 export default {
   HOST: process.env.HOST,
-  USER: process.env.USER,
+  USER: process.env.DB_USER,
   PASSWORD: process.env.PASSWORD,
   DB: process.env.DB,
   dialect: process.env.DIALECT,
