@@ -89,7 +89,16 @@ export const getDepartment = async (req, res) => {
         try {
             console.log(req.body);
             // Örneğin, departmanın adına göre arama yapmak istiyorsanız, req.body.name gibi bir alan kullanabilirsiniz
-            const department = await Department.findOne({ where: { name: req.body.name } });
+            
+            const department = await Department.findOne(
+            {
+                where: { name: req.query.name },
+                include: [{
+                  model: db.student,
+                  as: 'students'
+                }]
+              });
+
             console.log(department);
             if (department === null) {
                 // Departman bulunamadı
@@ -99,7 +108,8 @@ export const getDepartment = async (req, res) => {
                 return;
             } else {
                 res.send({
-                    "mesaj": "Departman bulundu"
+                    "mesaj": "Departman bulundu",
+                    "department": department
                 });
             }
         } catch (error) {
@@ -154,10 +164,10 @@ export const getAllDepartments = async (req, res) => {
 */
 export const updateDepartment = async (req, res) => {
     try {
-        const { name, dept_std_id } = req.body; // Güncellenecek departmanın yeni adı ve kodu
+        const name = req.query.name; // Güncellenecek departmanın yeni adı ve kodu
         
         // Departman kodu veritabanında var mı diye kontrol et
-        const existingDepartment = await Department.findOne({ where: { dept_std_id } });
+        const existingDepartment = await Department.findOne({ where: { name } });
 
         // Eğer departman bulunamazsa
         if (!existingDepartment) {
@@ -167,12 +177,11 @@ export const updateDepartment = async (req, res) => {
         }
 
         // Departman varsa, güncelleme yap
-        await existingDepartment.update({ name }); // Sadece adı güncellemek için
-        // Alternatif olarak, hem adı hem de kodu güncellemek için:
-        // await existingDepartment.update({ name, dept_std_id });
+        await existingDepartment.update(req.body); 
 
         return res.status(200).json({
-            message: "Başarılı! Departman başarıyla güncellendi."
+            message: "Başarılı! Departman başarıyla güncellendi.",
+            updated_dept: existingDepartment
         });
     } catch (error) {
         console.error(error);

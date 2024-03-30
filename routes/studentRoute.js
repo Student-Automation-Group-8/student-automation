@@ -13,12 +13,12 @@ StudentRoute.route('/create').post(studentController.createStudent);
 StudentRoute.route('/getAll').get(studentController.getAllStudents);
 
 // Get a single Student by id
-StudentRoute.route('/get/:email').get(studentController.getStudent);
+StudentRoute.route('/get').get(studentController.getStudent);
 
 // Update a Student by id
-StudentRoute.route('/update/:email').put(studentController.updateStudent);
+StudentRoute.route('/update').put(studentController.updateStudent);
 
 // Delete a Student by id
-StudentRoute.route('/delete/:email').delete(studentController.deleteStudent);
+StudentRoute.route('/delete').delete(studentController.deleteStudent);
 
 export default StudentRoute;

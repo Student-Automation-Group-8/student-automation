@@ -46,11 +46,21 @@ export const getStudent = async (req, res) => {
     */
 
     try{
-        const student = await Student.findOne({where:{ email: req.params.email }});
+        const student = await Student.findOne({
+            where: { email: req.query.email },
+            include: [{
+                model: db.department, // assuming you've imported Department at the top of your file
+                as: 'department' // this should match the alias you used in your association
+            }]
+        });
         if (!student) {
-            return res.status(404).json({ message: 'Student not found' });
+            return res.status(404).json({ message: 'Başarısız!, Öğrenci bulunamadı.' });
         }
-        res.status(200).json(student);
+        res.status(200).json(
+            {
+                message: "Başarılı! Öğrenci bulundu!",
+                student: student
+            });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -93,8 +103,7 @@ export const deleteStudent = async (req, res) => {
         // Öğrenciyi veritabanından sil
         const successCode = await Student.destroy({
             where: {
-                email: req.params.email // E-posta adresini sorgu parametrelerinden al
-
+                email: req.query.email // E-posta adresini sorgu parametrelerinden al
             }
         });
 
@@ -124,23 +133,31 @@ export const deleteStudent = async (req, res) => {
 
 export const updateStudent = async (req, res) => {
     try {
-        const existingStudentCode = await Student.update(req.body,
+        const email = req.query.email;
+        const existingStudent = await Student.findOne({ where: { email} });
+
+        if(!existingStudent){
+            return res.status(404).json({
+                message: "Öğrenci bulunamadı."
+            });
+        }
+        const existingStudentCode = await existingStudent.update(req.body,
             {
-                where: { email: req.params.email }
+                where: { email: req.query.email }
             }
         )
         
-         // Eğer öğrenci yoksa
          if (existingStudentCode == 0) {
 
             return res.status(404).json({
-                message: "Öğrenci bulunamadı."
+                message: "Güncelleme hatası!"
             });
         }
 
 
         return res.status(200).json({
-            message: "Başarılı! Öğrenci başarıyla güncellendi."
+            message: "Başarılı! Öğrenci başarıyla güncellendi.",
+            student: existingStudent
         });
 
     } catch (err) {

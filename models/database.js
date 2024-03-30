@@ -59,22 +59,16 @@ db.department = departmentModel(sequelize, DataTypes);
 */
 
 
-
-/* Veri tabanı tablo ilişkileri ekleme örneği:
-veri tabanındaki tablolar arasındaki ilişkileri aşağıdaki gibi tanımlayacağız:
-db.department.hasMany(db.student, {
-  foreignKey: 'deptid',
-  as: 'students'
-});
+// Set up associations
 db.student.belongsTo(db.department, {
   foreignKey: 'deptid',
-  as: 'department'
+  as: 'department', 
 });
 
-Not: bu tanımlar örnektir doğru olmayabilir.
-Not2: tablo yapılarında bir miktar değişiklik yapmak gerekebilir. Örneğin sutdent tablosunada zaten modelde var olan deptid alanı silmemiz gerekebilir. Galiba yukarıdaki kod ilgili sütunu otomatik ekliyordu.
-Not3: tablolar arasındaki ilişkiler model dosyasında da tanımlanmabilir. Bu konuya bakacağım.
-*/
+db.department.hasMany(db.student, {
+  foreignKey: 'deptid',
+  as: 'students', 
+});
 
 
 db.sequelize.sync({ force: false}).then(() => {
