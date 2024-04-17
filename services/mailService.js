@@ -1,56 +1,36 @@
 // npm install nodemailer
-
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
-// PostgreSQL bağlantı bilgileri
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.HOST,
-  database: process.env.DB,
-  password: process.env.PASSWORD,
-  port: process.env.PORT,
-});
-
-// E-posta ayarları
+// Gmail'e erişim için nodemailer transporter'ı oluşturun
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'gonderici@gmail.com',
-    pass: 'gondericisifre'
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
   }
 });
 
-// Veritabanından bilgileri al ve e-posta gönder
-pool.connect((err, client, release) => {
-  if (err) {
-    return console.error('Veritabanı bağlantı hatası', err.stack);
-  }
-  console.log('Veritabanı bağlantısı başarılı!');
+// Fonksiyon, belirtilen metni bir e-posta olarak gönderir
+const sendEmail = (text) => {
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: process.env.EMAIL_USER,
+    subject: "Yedek",
+    text: text
+  };
 
-  // Veritabanından ilgili bilgileri al
-  client.query('SELECT name FROM student', (err, result) => {
-    release();
-    if (err) {
-      return console.error('Sorgu hatası', err.stack);
+    // E-postayı gönderme işlemi
+  transporter.sendMail(mailOptions, (error, info) => {
+    //hata kontrolü
+    if (error) {
+      console.log('E-posta gönderilemedi: ' + error);
+    } else {
+      console.log('E-posta başarıyla gönderildi: ' + info.response);
     }
-    
-    // E-posta içeriği oluştur
-    const mailOptions = {
-      from: 'gonderici@gmail.com',
-      to: 'alici@gmail.com',
-      subject: 'Veritabanı Bilgileri',
-      text: `Merhaba,\n\nVeritabanından alınan bilgiler:\n${JSON.stringify(result.rows)}`
-    };
-
-    // E-posta gönder
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.log('E-posta gönderilemedi: ' + error);
-      } else {
-        console.log('E-posta başarıyla gönderildi: ' + info.response);
-      }
-    });
   });
-});
+};
+
+export default sendEmail;
