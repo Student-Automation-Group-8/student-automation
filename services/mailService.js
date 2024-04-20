@@ -19,7 +19,13 @@ const sendEmail = (text) => {
     from: process.env.EMAIL_USER,
     to: process.env.EMAIL_USER,
     subject: "Yedek",
-    text: text
+    text: "Öğrenci listesi yedek",
+    attachments: [
+      {
+          filename: 'student_list.json', // E-posta ek dosyanın adı
+          path: 'student_list.json' // Dosyanın yolunu belirtin
+      }
+  ]
   };
 
     // E-postayı gönderme işlemi
