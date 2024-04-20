@@ -1,0 +1,106 @@
+[
+  {
+    "id": 2,
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "deptid": 1,
+    "counter": null,
+    "department": {
+      "id": 1,
+      "dpid": null,
+      "name": "Computer Science",
+      "dept_std_id": 1
+    }
+  },
+  {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "deptid": 1,
+    "counter": null,
+    "department": {
+      "id": 1,
+      "dpid": null,
+      "name": "Computer Science",
+      "dept_std_id": 1
+    }
+  },
+  {
+    "id": 4,
+    "name": "Jane Doe",
+    "email": "jane.doe@example.com",
+    "deptid": 2,
+    "counter": null,
+    "department": {
+      "id": 2,
+      "dpid": null,
+      "name": "Computer Science",
+      "dept_std_id": 1
+    }
+  },
+  {
+    "id": 3,
+    "name": "Jane Doe",
+    "email": "jane.doe@example.com",
+    "deptid": 2,
+    "counter": null,
+    "department": {
+      "id": 2,
+      "dpid": null,
+      "name": "Computer Science",
+      "dept_std_id": 1
+    }
+  },
+  {
+    "id": 6,
+    "name": "Bob Smith",
+    "email": "bob.smith@example.com",
+    "deptid": 3,
+    "counter": null,
+    "department": {
+      "id": 3,
+      "dpid": null,
+      "name": "Electrical Engineering",
+      "dept_std_id": 2
+    }
+  },
+  {
+    "id": 5,
+    "name": "Bob Smith",
+    "email": "bob.smith@example.com",
+    "deptid": 3,
+    "counter": null,
+    "department": {
+      "id": 3,
+      "dpid": null,
+      "name": "Electrical Engineering",
+      "dept_std_id": 2
+    }
+  },
+  {
+    "id": 8,
+    "name": "Alice Johnson",
+    "email": "alice.johnson@example.com",
+    "deptid": 4,
+    "counter": null,
+    "department": {
+      "id": 4,
+      "dpid": null,
+      "name": "Electrical Engineering",
+      "dept_std_id": 2
+    }
+  },
+  {
+    "id": 7,
+    "name": "Alice Johnson",
+    "email": "alice.johnson@example.com",
+    "deptid": 4,
+    "counter": null,
+    "department": {
+      "id": 4,
+      "dpid": null,
+      "name": "Electrical Engineering",
+      "dept_std_id": 2
+    }
+  }
+]

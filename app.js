@@ -5,7 +5,11 @@ import dotenv from 'dotenv';
 import AuthRoute from './routes/authRoute.js';
 import StudentRoute from './routes/studentRoute.js';
 import DepartmentRoute from './routes/departmentRoute.js';
+import TestRoute from './routes/testRoute.js';
 import http from 'http';
+import createTestExample from './seeders/createTestExample.js';
+import backUpService from './services/backUpService.js';
+
 /*
  Express ve cors modüllerini projemize dahil ediyoruz.
 
@@ -50,6 +54,7 @@ app.get('/', (_, res) => { res.json({ message: "welcome group 8" }) })
 app.use('/auth', AuthRoute);
 app.use('/student', StudentRoute);
 app.use('/department', DepartmentRoute);
+app.use('/test', TestRoute);
 /*
 Route üzerinde tanımlanan isteklerin hangi url üzerinden geleceğini belirtir.
 Örneğin: (POST)http://localhost:3000/student/create adresine bir istek geldiğinde bu istek 'StudentRoute' üzerindeki 'create' ile işlenecek.
@@ -71,9 +76,12 @@ const server = http.createServer(app);
  Not: eğer Postman üzerinde https kullanırsanız hata alırsınız. Çünkü bu sunucu http üzerinden çalışıyor.
 */
 
+
 const port = process.env.PORT;
 server.listen(port, () => {
     console.log(`Server is live on port ${port}`);
+      createTestExample();
+      backUpService();
 });
 /*
  Sunucuyu belirtilen port üzerinden başlatıyoruz. Eğer sunucu başarıyla başlatılırsa 'Server is live on port ${port}' mesajını yazdırıyoruz.
