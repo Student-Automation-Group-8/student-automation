@@ -113,7 +113,8 @@ export const deleteStudent = async (req, res) => {
         // Silinen öğrenci varsa
 
         if (successCode) {
-
+            const studentCounter = await StudentCounter.findOne();
+            await studentCounter.decrement('counter');
             return res.status(200).json({
                 message: "Başarılı! Öğrenci başarıyla silindi."
             });
