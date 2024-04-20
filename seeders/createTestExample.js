@@ -1,11 +1,13 @@
 import db from "../models/database.js";
+
 const Student = db.student;
 const Department = db.department;
+const StudentCounter = db.studentCounter;
+
 
 
 const createTestExample = async () => {
-    console.log('Creating 10 students and 4 departments...');
-    
+
     const students = [
     { name: 'John Doe', email: 'john.doe@example.com', deptid: 1 },
     { name: 'Jane Doe', email: 'jane.doe@example.com', deptid: 2 },
@@ -27,7 +29,6 @@ const createTestExample = async () => {
     ];  
 
     try {
-        // Insert departments
         for (const department of departments) {
         await Department.findOrCreate({
             where: { name: department.name },
@@ -35,17 +36,21 @@ const createTestExample = async () => {
         });
         }
 
-        // Insert students
-        for (const student of students) {
-        await Student.findOrCreate({
-            where: { email: student.email },
-            include: { model: Department, as: 'department' },
-            where: { deptid: student.deptid },
-            defaults: student
-        });
-        }
+        await StudentCounter.findOrCreate({
+            where: { id:1 },
+            defaults: { id:1, counter: 10 }
+         });
 
-        console.log('10 students and 4 departments created successfully!');
+        students.forEach(async student => {
+            await Student.findOrCreate({
+                where: { email: student.email },
+                include: { model: Department, as: 'department' },
+                defaults: student
+            });
+        });
+        
+         
+        console.log('1 counter, 10 students and 4 departments created successfully!');
     } catch (err) {
         console.error(err);
     }

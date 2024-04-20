@@ -31,15 +31,7 @@ export default (sequelize, DataTypes) => {
       }
       // deptid alanı, INTEGER türünde ve boş bırakılamaz (allowNull: false) olarak tanımlanıyor. Ayrıca bu alanda boş bir değer kabul edilmiyor (notEmpty: true).
 
-    },
-    counter: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      validate:{
-        isInt: true
-      }
-      // counter alanı, INTEGER türünde ve boş bırakılabilir (allowNull: true) olarak tanımlanıyor. Ayrıca bu alanda boş bir değer kabul edilmiyor (notEmpty: true).
-    }  
+    } 
   },
   {
     // Bu alanda ek ayarlar yapılabilir. Sequelize default ayarları değiştirebilir. Bir çok gelişmiş configrasyon tabloya özel yapılabilir.

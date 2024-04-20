@@ -3,6 +3,7 @@ import db from '../models/database.js';
 
 // create main Model
 const Student = db.student;
+const StudentCounter = db.studentCounter;
 
 
 export const createStudent = async (req, res) => {
@@ -20,13 +21,15 @@ export const createStudent = async (req, res) => {
             });
         }
         const student = await Student.create(req.body);
-
+        const studentCounter = await StudentCounter.findOne();
+        await studentCounter.increment('counter');
         return res.status(201).json({
             message: "Başarılı! Öğrenci başarıyla oluşturuldu!",
             student: {
                 name: student.name,
                 email: student.email
-            }
+            },
+            studentCounter
         });
     } catch (error) {
         console.log(error);

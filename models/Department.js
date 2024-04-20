@@ -9,10 +9,6 @@ export default (sequelize, DataTypes) => {
 
     const Department = sequelize.define("department", {
       // Model alanları ve özellikleri tanımlanıyor.
-      dpid:{
-        type: DataTypes.INTEGER, 
-      
-      },    
       name:{
         type: DataTypes.STRING,
         allowNull: false,

@@ -271,6 +271,65 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Test",
+			"item": [
+				{
+					"name": "sendmail",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/test/sendmail",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"test",
+								"sendmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "writefile",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/test/writefile",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"test",
+								"writefile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "readfile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/test/readfile",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"test",
+								"readfile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
