@@ -1,5 +1,6 @@
 import dbConfig from '../config/config.js';
 import { Sequelize, DataTypes } from 'sequelize';
+import userModel from './User.js';
 import studentModel from './student.js';
 import departmentModel from './department.js';
 import studentCounterModel from './StudentCounter.js';
@@ -50,7 +51,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 
-
+db.user = userModel(sequelize, DataTypes)
 db.student = studentModel(sequelize, DataTypes);
 db.department = departmentModel(sequelize, DataTypes);
 db.studentCounter = studentCounterModel(sequelize, DataTypes);
